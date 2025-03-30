@@ -4179,12 +4179,23 @@ def set_envelope():
     raise NotImplementedError
 
 
-def set_label():
+def set_label(label, text=None, start=None, end=None, selected=None):
+    # type: (int, str, float, float, bool) -> str
     """TODO
 
-    Audacity Documentation: Modifies an existing label. You must give it the label number.
+    Audacity Documentation: Sets the text, start time, end time, and selection state of a label.
     """
-    raise NotImplementedError
+
+    command = 'SetLabel: Label="{}"'.format(label)
+    if text is not None:
+        command += ' Text="{}"'.format(text)
+    if start is not None:
+        command += ' Start="{}"'.format(start)
+    if end is not None:
+        command += ' End="{}"'.format(end)
+    if selected is not None:
+        command += ' Selected="{}"'.format(selected)
+    return do(command)
 
 
 def set_project():
