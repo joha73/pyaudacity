@@ -11,7 +11,6 @@ A Python module to control a running instance of Audacity through its macro syst
 # values compared to the default values that appear in the various dialog boxes.
 
 # TODO - Need to go through the docstrings and write up my own description (and explain the parameters and units), as well as add a link to the extended online docs.
-
 """
 NOTE: PyAudacity has a general practice of using names and values from the
 user interface rather than the Audacity macro documentation.
@@ -47,7 +46,6 @@ direction all the way.
 
 The names are based on the user interface as they appear in Audacity 3.2.5.
 """
-
 
 __version__ = "0.1.2"
 
@@ -1653,7 +1651,6 @@ def dtmf_tones(DTMF_sequence="audacity", duty_cycle=55, amplitude=0.8):
     raise NotImplementedError
 
     # Old code:
-
     """TODO
 
     Audacity Documentation: Generates dual-tone multi-frequency (DTMF) tones like those produced by the keypad on telephones.
@@ -2997,14 +2994,9 @@ def vocoder(
 
     msts = "BothChannels RightOnly".split()
 
-
     if mst not in msts:
         raise PyAudacityException(
-            "mst must be one of "
-            + ", ".join(msts)
-            + ", but was: '"
-            + mst
-            + "'."
+            "mst must be one of " + ", ".join(msts) + ", but was: '" + mst + "'."
         )
 
     if not isinstance(bands, int):
