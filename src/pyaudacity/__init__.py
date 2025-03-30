@@ -3096,10 +3096,10 @@ def beat_finder(thresval=0):
 
 def label_sounds(
     thershold_level=-30,
-    threshold_measurement="Peak level",
+    threshold_measurement="peak",
     min_silence_duration=0,
     min_label_interval=0,
-    label_type="Point before sound",
+    label_type="before",
     max_leading_silence=0,
     max_trailing_silence=0,
     label_text="Sound ##1",
@@ -3111,7 +3111,7 @@ def label_sounds(
     """
 
     return do(
-        'LabelSounds: threshold="{}" measurement="{}" sil-dur="{}" snd-dur="{}" type="{}" pre-offset="{}" post-offset="{}" text="{}"'.format(
+        'LabelSounds: THRESHOLD="{}" MEASUREMENT="{}" SIL-DUR="{}" SND-DUR="{}" TYPE="{}" PRE-OFFSET="{}" POST-OFFSET="{}" TEXT="{}"'.format(
             thershold_level,
             threshold_measurement,
             min_silence_duration,
