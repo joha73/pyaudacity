@@ -3,7 +3,16 @@ PyAudacity
 
 A Python module to control a running instance of Audacity through its [mod-script-pipe macro system](https://manual.audacityteam.org/man/scripting.html).
 
-IMPORTANT! If you use this module, please get in touch with al@inventwithpython.com I'd like to hear how people are using it and what changes I can make or features I should prioritize.
+IMPORTANT! If you use this module, please get in touch with <al@inventwithpython.com> I'd like to hear how people are using it and what changes I can make or features I should prioritize.
+
+About this Fork
+---------------
+
+This fork has been created, while experimenting with Audacity automation to ease fixing audiobooks (e.g. fixing chapter marks).
+
+The intention of this fork is to add missing features and fix bugs if needed. At some point, I also would love to contribute to one of the origins of this fork.
+
+Thank you [@asweigart](https://github.com/asweigart) for bringing this library to live and [@bwagner](https://github.com/bwagner) for improving it.
 
 Installation
 ------------
@@ -16,9 +25,7 @@ PyAudacity is a pure Python module and has no dependencies, although you must in
 
 IMPORTANT: You must enable the mod-script-pipe module in Audacity before you can use PyAudacity! Launch Audacity, open the Preferences menu, click on the Modules section on the sidebar, and then switch mod-script-pipe from New to Enabled. Then you must restart Audacity.
 
-The mod-script-pipe module comes with Audacity starting in version 3.2.0. If you don't see it in the Modules section, you must... I don't know. [The documentation doesn't say where you can download it.](https://manual.audacityteam.org/man/scripting.html#Getting_Started) If you do have instructions for installing it on Windows, macOS, and Linux, please email al@inventwithpython.com so I can post them here.
-
-
+The mod-script-pipe module comes with Audacity starting in version 3.2.0. If you don't see it in the Modules section, you must... I don't know. [The documentation doesn't say where you can download it.](https://manual.audacityteam.org/man/scripting.html#Getting_Started) If you do have instructions for installing it on Windows, macOS, and Linux, please email <al@inventwithpython.com> so I can post them here.
 
 Quickstart Guide
 ----------------
@@ -31,7 +38,7 @@ NOTE: Macros run from PyAudacity or the mod-script-pipe system aren't added to t
 
 NOTE: On Windows, if you see `OSError: [Errno 22] Invalid argument: '\\\\.\\pipe\\ToSrvPipe'` you'll have to run your Python script as an Administrator. I don't know why this is sometimes needed and not needed other times.
 
-Currently, PyAudacity is in a semi-complete state. I'm waiting to hear back from folks to see if this module is actually useful. Please email me at al@inventwithpython.com
+Currently, PyAudacity is in a semi-complete state. I'm waiting to hear back from folks to see if this module is actually useful. Please email me at <al@inventwithpython.com>
 
 Check out the [Scripting Reference page on the Audacity wiki](https://manual.audacityteam.org/man/scripting_reference.html) for documentation about the various macros. You can call `pyaudacity.do()` to run these macros on the currently opened Audacity project.
 
@@ -65,11 +72,9 @@ For example, the following does the same as the above example:
 
 PyAudacity is still under development, and a lot of work needs be done for argument validation. You can always use the `do()` function, but keep in mind that the convenience functions can have their function signatures rapidly change in the future as this library is developed. As such, the best way to find functions is to examine the source code, unfortunately.
 
-
 PyAudacity Wishlist for Audacity Macro Features
 ----------------
 
 It'd be great if Audacity added the following the macro system:
 
 * A macro batch command to retrieve the version number of Audacity.
-
