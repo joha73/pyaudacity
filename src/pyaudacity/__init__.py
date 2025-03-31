@@ -47,7 +47,7 @@ direction all the way.
 The names are based on the user interface as they appear in Audacity 3.2.5.
 """
 
-__version__ = "0.1.2"
+__version__ = "0.2.0"
 
 import os
 import sys
@@ -4116,12 +4116,49 @@ def select_frequencies(high=None, low=None):
     return do("SelectFrequencies: " + " ".join(macro_arguments))
 
 
-def select_tracks():
-    """TODO
+class SelectTracksMode(Enum):
+    """Enum for the SelectTracks command modes."""
 
-    Audacity Documentation: Modifies which tracks are selected. First and Last are track numbers. High and Low are for spectral selection. The Mode parameter allows complex selections, e.g adding or removing tracks from the current selection.
+    SET = "Set"
+    ADD = "Add"
+    REMOVE = "Remove"
+
+
+def select_tracks(
+    track: int,
+    track_count: int = 1,
+    mode: SelectTracksMode | str = SelectTracksMode.SET,
+):
+    """Select tracks.
+
+    You can set `track_count` to 0 to select no tracks (there can still be a time selection in that case).
+
+    For all parameters, the Audacity command "SelectTracks" would support "unchanged", if the parameter is not set,
+    but this is not implemented.
+
+    It also would allow fractional values like 0.5 for track and track_count to select a channel of a stereo track,
+    but this is not implemented with respect to type hints.
+
+    Args:
+        track: The number of the 1st track to select, starting at 0.
+        track_count: The number of tracks to select. The default is 1.
+        mode: The mode of selection. The default is SET. Other options are ADD and REMOVE.
+
+    Returns:
+        Result of the command.
+
+    Raises:
+        PyAudacityException: If the mode is not a valid value.
     """
-    raise NotImplementedError
+    if isinstance(mode, SelectTracksMode):
+        mode = mode.value
+    else:
+        modes = [mode.value for mode in SelectTracksMode]
+        if mode not in modes:
+            msg = f"mode argument must be one of {', '.join(modes)}"
+            raise PyAudacityException(msg)
+
+    return do(f"SelectTracks: Track={track} TrackCount={track_count} Mode={mode}")
 
 
 def set_track_status():
