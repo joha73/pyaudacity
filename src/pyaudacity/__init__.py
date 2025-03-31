@@ -49,6 +49,7 @@ The names are based on the user interface as they appear in Audacity 3.2.5.
 
 __version__ = "0.2.0"
 
+import json
 import os
 import sys
 import time
@@ -83,6 +84,9 @@ class PyAudacityException(Exception):
 #    NON_INTERACTIVE_MODE was set to True."""
 #
 #    pass
+
+
+RESPONSE_OK = "\nBatchCommand finished: OK\n"
 
 
 def do(command):  # type: (str) -> str
@@ -4259,36 +4263,74 @@ def set_track():
     raise NotImplementedError
 
 
-def get_info(info_type="Commands", format="JSON"):
-    # type: (str, str) -> str
-    """TODO
+class GetInfoType(Enum):
+    """Enum for the GetInfo command types."""
 
-    Audacity Documentation: Gets information in a list in one of three formats."""
+    COMMANDS = "Commands"
+    MENUS = "Menus"
+    PREFERENCES = "Preferences"
+    TRACKS = "Tracks"
+    CLIPS = "Clips"
+    ENVELOPES = "Envelopes"
+    LABELS = "Labels"
+    BOXES = "Boxes"
 
-    if info_type.title() not in (
-        "Commands",
-        "Menus",
-        "Preferences",
-        "Tracks",
-        "Clips",
-        "Envelopes",
-        "Labels",
-        "Boxes",
-    ):
-        raise PyAudacityException(
-            'info_type argument must be one of "Commands", "Menus", "Preferences", "Tracks", "Clips", "Envelopes", "Labels", or "Boxes"'
-        )
-    formats = "JSON LISP Brief".split()
-    if format not in formats:
-        raise PyAudacityException(
-            "format argument must be one of"
-            + ", ".join(['"' + f + '"' for f in formats[:-1]])
-            + ', and "'
-            + formats[-1]
-            + '"'
-        )
+
+class GetInfoFormat(Enum):
+    """Enum for the GetInfo command formats."""
+
+    JSON = "JSON"
+    LISP = "LISP"
+    BRIEF = "Brief"
+
+
+def get_info(
+    info_type: GetInfoType | str = GetInfoType.COMMANDS,
+    format: GetInfoFormat | str = GetInfoFormat.JSON,
+):
+    """Get information for the given type and return it in the given format.
+
+    Args:
+        info_type: The type of information to get.
+        format: The format of the information to get.
+
+    Returns:
+        The information in the specified format.
+
+    Raises:
+        PyAudacityException: If the info_type or format is not valid.
+    """
+
+    if isinstance(info_type, GetInfoType):
+        info_type = info_type.value
+    else:
+        info_types = [info_type.value for info_type in GetInfoType]
+        if info_type not in info_types:
+            msg = f"info_type argument must be one of {', '.join(info_types)}"
+            raise PyAudacityException(msg)
+
+    if isinstance(format, GetInfoFormat):
+        format = format.value
+    else:
+        formats = [format.value for format in GetInfoFormat]
+        if format not in formats:
+            msg = f"format argument must be one of {', '.join(formats)}"
+            raise PyAudacityException(msg)
 
     return do('GetInfo: Type="{}" Format="{}"'.format(info_type, format))
+
+
+def get_info_dict(info_type: GetInfoType = GetInfoType.COMMANDS):
+    """Get information for the given type and return it as a dictionary.
+
+    Args:
+        info_type: The type of information to get.
+
+    Returns:
+        A dictionary containing the information.
+    """
+    result = get_info(info_type, GetInfoFormat.JSON).removesuffix(RESPONSE_OK)
+    return json.loads(result)
 
 
 def message(text="Some message"):
